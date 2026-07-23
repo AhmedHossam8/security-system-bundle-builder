@@ -2,6 +2,8 @@ import { useCallback, useMemo, useState } from 'react';
 
 import { initialBundleState } from '../data/initialBundle';
 import { products } from '../data/products';
+import * as bundleUtils from '../utils/bundle';
+import * as selectionUtils from '../utils/selections';
 
 import type { ActiveVariants, BundleSelection, BundleState, BundleStepId } from '../types/bundle';
 
@@ -16,45 +18,14 @@ export function useBundle() {
   }));
 
   const [activeVariants, setActiveVariants] = useState<ActiveVariants>(() =>
-    getInitialActiveVariants(),
+    bundleUtils.getInitialActiveVariants(products, initialBundleState.selections),
   );
-
-  /**
-   * Returns the default active variant for each product.
-   *
-   * Priority:
-   * 1. Variant already selected in initial bundle state.
-   * 2. First available product variant.
-   * 3. No active variant for products without variants.
-   */
-  function getInitialActiveVariants(): ActiveVariants {
-    const initialVariants: ActiveVariants = {};
-
-    products.forEach((product) => {
-      if (!product.variants?.length) {
-        return;
-      }
-
-      const initialSelection = initialBundleState.selections.find(
-        (selection) => selection.productId === product.id && selection.variantId,
-      );
-
-      if (initialSelection?.variantId) {
-        initialVariants[product.id] = initialSelection.variantId;
-        return;
-      }
-
-      initialVariants[product.id] = product.variants[0].id;
-    });
-
-    return initialVariants;
-  }
 
   /**
    * Find a product by its ID.
    */
   const getProduct = useCallback((productId: string) => {
-    return products.find((product) => product.id === productId);
+    return bundleUtils.getProductById(products, productId);
   }, []);
 
   /**
@@ -64,7 +35,7 @@ export function useBundle() {
     (productId: string, variantId: string) => {
       const product = getProduct(productId);
 
-      return product?.variants?.find((variant) => variant.id === variantId);
+      return product ? bundleUtils.getVariantById(product, variantId) : undefined;
     },
     [getProduct],
   );
@@ -126,9 +97,7 @@ export function useBundle() {
    */
   const findSelection = useCallback(
     (selections: BundleSelection[], productId: string, variantId?: string) => {
-      return selections.find(
-        (selection) => selection.productId === productId && selection.variantId === variantId,
-      );
+      return selectionUtils.findSelection(selections, productId, variantId);
     },
     [],
   );
@@ -325,29 +294,15 @@ export function useBundle() {
    */
   const getSelectedProductCount = useCallback(
     (category: BundleStepId): number => {
-      const productIds = new Set<string>();
+      const categorySelections = selectionUtils.getSelectionsByCategory(
+        state.selections,
+        products,
+        category,
+      );
 
-      state.selections.forEach((selection) => {
-        if (selection.quantity <= 0) {
-          return;
-        }
-
-        const product = getProduct(selection.productId);
-
-        if (!product || product.isRequired) {
-          return;
-        }
-
-        if (product.category !== category) {
-          return;
-        }
-
-        productIds.add(product.id);
-      });
-
-      return productIds.size;
+      return selectionUtils.getDistinctProductCount(categorySelections, products);
     },
-    [getProduct, state.selections],
+    [state.selections],
   );
 
   /**
@@ -355,17 +310,9 @@ export function useBundle() {
    */
   const getSelectionsByCategory = useCallback(
     (category: BundleStepId): BundleSelection[] => {
-      return state.selections.filter((selection) => {
-        if (selection.quantity <= 0) {
-          return false;
-        }
-
-        const product = getProduct(selection.productId);
-
-        return product?.category === category;
-      });
+      return selectionUtils.getSelectionsByCategory(state.selections, products, category);
     },
-    [getProduct, state.selections],
+    [state.selections],
   );
 
   /**
@@ -378,7 +325,9 @@ export function useBundle() {
         ...selection,
       })),
     });
-    setActiveVariants(getInitialActiveVariants());
+    setActiveVariants(
+      bundleUtils.getInitialActiveVariants(products, initialBundleState.selections),
+    );
   }, []);
 
   /**
@@ -388,7 +337,7 @@ export function useBundle() {
    * without recalculating it unnecessarily.
    */
   const selectedItems = useMemo(
-    () => state.selections.filter((selection) => selection.quantity > 0),
+    () => selectionUtils.getSelectedItems(state.selections),
     [state.selections],
   );
 
