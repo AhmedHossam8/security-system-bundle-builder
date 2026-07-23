@@ -117,7 +117,8 @@
     "name": "Wyze Sense Hub (Required)",
     "image": "/images/products/wyze-sense-hub.png",
     "price": 0,
-    "billingPeriod": "one-time"
+    "billingPeriod": "one-time",
+    "isRequired": true
   },
   {
     "id": "wyze-microsd-card-256gb",

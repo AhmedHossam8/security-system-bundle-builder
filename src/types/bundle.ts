@@ -28,6 +28,7 @@ export interface Product {
   price: number;
   billingPeriod?: 'monthly' | 'one-time';
   variants?: ProductVariant[];
+  isRequired?: boolean;
 }
 
 export interface BundleSelection {
@@ -39,4 +40,8 @@ export interface BundleSelection {
 export interface BundleState {
   selections: BundleSelection[];
   activeStep: BundleStepId | null;
+}
+
+export interface ActiveVariants {
+  [productId: string]: string;
 }
