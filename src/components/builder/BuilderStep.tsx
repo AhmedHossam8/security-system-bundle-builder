@@ -34,7 +34,7 @@ export function BuilderStep({
 
   return (
     <section
-      className={`rounded-lg border border-border bg-surface shadow-card${className ? ` ${className}` : ''}`}
+      className={`rounded-lg border border-border ${isOpen ? 'bg-step-open' : 'bg-surface'} shadow-card${className ? ` ${className}` : ''}`}
     >
       <button
         type="button"
@@ -69,7 +69,7 @@ export function BuilderStep({
               <button
                 type="button"
                 onClick={onNext}
-                className="rounded-md bg-brand px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-brand-hover"
+                className="rounded-md bg-brand-checkout px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-brand-checkout-hover"
               >
                 {nextLabel}
               </button>

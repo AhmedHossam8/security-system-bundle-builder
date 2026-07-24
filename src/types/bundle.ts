@@ -14,7 +14,7 @@ export interface Product {
   category: ProductCategory;
   name: string;
   description?: string;
-  image: string;
+  image?: string;
   discountLabel?: string;
   compareAtPrice?: number;
   price: number;

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Shield } from 'lucide-react';
 
 import { ProductCard } from './ProductCard';
 import { Modal } from '../ui/Modal';
@@ -81,11 +82,17 @@ export function ProductGrid({
           title={detailProduct.name}
         >
           <div className="flex flex-col gap-4">
-            <img
-              src={detailProduct.image}
-              alt={detailProduct.name}
-              className="w-full rounded-md object-cover"
-            />
+            {detailProduct.category === 'plan' ? (
+              <div className="flex aspect-video w-full items-center justify-center rounded-md bg-step-open">
+                <Shield className="h-16 w-16 text-brand" />
+              </div>
+            ) : detailProduct.image ? (
+              <img
+                src={detailProduct.image}
+                alt={detailProduct.name}
+                className="w-full rounded-md object-cover"
+              />
+            ) : null}
             {detailProduct.description && (
               <p className="text-sm text-secondary">{detailProduct.description}</p>
             )}

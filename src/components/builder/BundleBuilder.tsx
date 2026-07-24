@@ -16,30 +16,35 @@ import type { OrderSummaryProps } from '../review/OrderSummary';
 const STEPS: {
   id: BundleStepId;
   title: string;
+  reviewTitle: string;
   Icon: React.ComponentType<{ className?: string }>;
   nextLabel: string | undefined;
 }[] = [
   {
     id: 'cameras',
-    title: 'Choose your cameras',
+    title: 'Cameras',
+    reviewTitle: 'Cameras',
     Icon: Camera,
-    nextLabel: 'Next: Choose your plan',
+    nextLabel: 'Next: Plan',
   },
   {
     id: 'plan',
-    title: 'Choose your plan',
+    title: 'Plan',
+    reviewTitle: 'Plan',
     Icon: Shield,
-    nextLabel: 'Next: Choose your sensors',
+    nextLabel: 'Next: Sensors',
   },
   {
     id: 'sensors',
-    title: 'Choose your sensors',
+    title: 'Sensors',
+    reviewTitle: 'Sensors',
     Icon: Radio,
-    nextLabel: 'Next: Add extra protection',
+    nextLabel: 'Next: Accessories',
   },
   {
     id: 'accessories',
     title: 'Add extra protection',
+    reviewTitle: 'Accessories',
     Icon: Lock,
     nextLabel: undefined,
   },
@@ -62,13 +67,17 @@ export function BundleBuilder({ className }: BundleBuilderProps) {
     setActiveStep,
     toggleStep,
     saveBundle,
+    resetBundle,
   } = useBundle();
 
   const reviewData = useMemo(() => {
     const grouped = selectionUtils.groupSelectionsByCategory(selectedItems, products);
 
-    const categories: ReviewCategoryProps[] = STEPS.map((step) => {
-      const categorySelections = grouped[step.id] ?? [];
+    const REVIEW_ORDER = ['cameras', 'sensors', 'accessories', 'plan'] as const;
+
+    const categories: ReviewCategoryProps[] = REVIEW_ORDER.map((id) => {
+      const step = STEPS.find((s) => s.id === id);
+      const categorySelections = grouped[id] ?? [];
 
       if (categorySelections.length === 0) {
         return null;
@@ -85,13 +94,13 @@ export function BundleBuilder({ className }: BundleBuilderProps) {
           variant,
           quantity: selection.quantity,
           lineTotal: pricingUtils.calculateItemTotal(product, selection.quantity),
+          onIncrement: () => incrementQuantity(selection.productId, selection.variantId),
+          onDecrement: () => decrementQuantity(selection.productId, selection.variantId),
         };
       });
 
       return {
-        title: step.title,
-        icon: <step.Icon className="h-4 w-4" />,
-        itemCount: items.length,
+        title: step?.reviewTitle ?? id,
         items,
       } as ReviewCategoryProps;
     }).filter(Boolean) as ReviewCategoryProps[];
@@ -99,12 +108,11 @@ export function BundleBuilder({ className }: BundleBuilderProps) {
     const subtotal = pricingUtils.calculateSubtotal(selectedItems, products);
     const compareAtTotal = pricingUtils.calculateCompareAtTotal(selectedItems, products);
     const savings = pricingUtils.calculateSavings(compareAtTotal, subtotal);
-    const totalItems = selectedItems.reduce((sum, s) => sum + s.quantity, 0);
 
-    const summary: OrderSummaryProps = { subtotal, compareAtTotal, savings, totalItems };
+    const summary: OrderSummaryProps = { subtotal, compareAtTotal, savings };
 
     return { categories, summary, hasSelections: selectedItems.length > 0 };
-  }, [selectedItems]);
+  }, [selectedItems, incrementQuantity, decrementQuantity]);
 
   return (
     <div
@@ -144,7 +152,7 @@ export function BundleBuilder({ className }: BundleBuilderProps) {
       </div>
 
       <div className="w-full shrink-0 lg:w-80 lg:self-start lg:sticky lg:top-8 xl:w-96">
-        <ReviewPanel {...reviewData} onSave={saveBundle} />
+        <ReviewPanel {...reviewData} onSave={saveBundle} onCheckout={resetBundle} />
       </div>
     </div>
   );

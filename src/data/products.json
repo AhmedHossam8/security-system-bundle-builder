@@ -4,7 +4,7 @@
     "category": "cameras",
     "name": "Wyze Cam v4",
     "description": "The clearest Wyze Cam ever made.",
-    "image": "/images/products/wyze-cam-v4.png",
+    "image": "/WyzeCamV4.webp",
     "discountLabel": "Save 22%",
     "compareAtPrice": 35.98,
     "price": 27.98,
@@ -13,17 +13,17 @@
       {
         "id": "white",
         "name": "White",
-        "image": "/images/products/wyze-cam-v4-white.png"
+        "image": "/WyzeCamV4.webp"
       },
       {
         "id": "gray",
         "name": "Gray",
-        "image": "/images/products/wyze-cam-v4-gray.png"
+        "image": "/WyzeCamV4.webp"
       },
       {
         "id": "black",
         "name": "Black",
-        "image": "/images/products/wyze-cam-v4-black.png"
+        "image": "/WyzeCamV4.webp"
       }
     ]
   },
@@ -32,7 +32,7 @@
     "category": "cameras",
     "name": "Wyze Cam Pan v3",
     "description": "360° pan and 180° tilt security camera.",
-    "image": "/images/products/wyze-cam-pan-v3.png",
+    "image": "/WyzeCamPanV3.webp",
     "discountLabel": "Save 12%",
     "compareAtPrice": 39.98,
     "price": 34.98,
@@ -41,12 +41,12 @@
       {
         "id": "white",
         "name": "White",
-        "image": "/images/products/wyze-cam-pan-v3-white.png"
+        "image": "/WyzeCamPanV3.webp"
       },
       {
         "id": "black",
         "name": "Black",
-        "image": "/images/products/wyze-cam-pan-v3-black.png"
+        "image": "/WyzeCamPanV3.webp"
       }
     ]
   },
@@ -55,7 +55,7 @@
     "category": "cameras",
     "name": "Wyze Cam Floodlight v2",
     "description": "2K floodlight camera with a 160° wide-angle view for your garage.",
-    "image": "/images/products/wyze-cam-floodlight-v2.png",
+    "image": "/WyzeCamFloodlightV2.jpg",
     "discountLabel": "Save 22%",
     "compareAtPrice": 89.98,
     "price": 69.98,
@@ -64,12 +64,12 @@
       {
         "id": "white",
         "name": "White",
-        "image": "/images/products/wyze-cam-floodlight-v2-white.png"
+        "image": "/WyzeCamFloodlightV2.jpg"
       },
       {
         "id": "black",
         "name": "Black",
-        "image": "/images/products/wyze-cam-floodlight-v2-black.png"
+        "image": "/WyzeCamFloodlightV2.jpg"
       }
     ]
   },
@@ -78,7 +78,7 @@
     "category": "cameras",
     "name": "Wyze Cam Duo Doorbell",
     "description": "Two cameras. Two views. Double the porch protection.",
-    "image": "/images/products/wyze-cam-duo-doorbell.png",
+    "image": "/WyzeCamDuoDoorbell.avif",
     "price": 69.98,
     "billingPeriod": "one-time"
   },
@@ -87,19 +87,19 @@
     "category": "cameras",
     "name": "Wyze Battery Cam Pro",
     "description": "Protect anywhere. See everything in 2.5K HDR.",
-    "image": "/images/products/wyze-battery-cam-pro.png",
+    "image": "/WyzeBatteryCamPro.jpg",
     "price": 89.98,
     "billingPeriod": "one-time",
     "variants": [
       {
         "id": "white",
         "name": "White",
-        "image": "/images/products/wyze-battery-cam-pro-white.png"
+        "image": "/WyzeBatteryCamPro.jpg"
       },
       {
         "id": "black",
         "name": "Black",
-        "image": "/images/products/wyze-battery-cam-pro-black.png"
+        "image": "/WyzeBatteryCamPro.jpg"
       }
     ]
   },
@@ -107,7 +107,7 @@
     "id": "wyze-sense-motion-sensor",
     "category": "sensors",
     "name": "Wyze Sense Motion Sensor",
-    "image": "/images/products/wyze-sense-motion-sensor.png",
+    "image": "/WyzeSenseMotionSensor.webp",
     "price": 29.99,
     "billingPeriod": "one-time"
   },
@@ -115,7 +115,7 @@
     "id": "wyze-sense-hub",
     "category": "sensors",
     "name": "Wyze Sense Hub (Required)",
-    "image": "/images/products/wyze-sense-hub.png",
+    "image": "/WyzeSenseHub.webp",
     "price": 0,
     "billingPeriod": "one-time",
     "isRequired": true
@@ -124,7 +124,7 @@
     "id": "wyze-microsd-card-256gb",
     "category": "accessories",
     "name": "Wyze MicroSD Card (256GB)",
-    "image": "/images/products/wyze-microsd-card-256gb.png",
+    "image": "/WyzeMicroSDCard.jpg",
     "price": 20.98,
     "billingPeriod": "one-time"
   },
@@ -132,7 +132,6 @@
     "id": "cam-unlimited",
     "category": "plan",
     "name": "Cam Unlimited",
-    "image": "/images/products/cam-unlimited.png",
     "compareAtPrice": 39.99,
     "price": 9.99,
     "billingPeriod": "monthly"

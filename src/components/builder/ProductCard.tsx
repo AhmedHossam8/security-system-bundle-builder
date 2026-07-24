@@ -1,3 +1,5 @@
+import { Shield } from 'lucide-react';
+
 import { QuantityStepper } from './QuantityStepper';
 import { VariantSelector } from './VariantSelector';
 import { formatPrice } from '../../utils/pricing';
@@ -35,11 +37,17 @@ export function ProductCard({
       }${className ? ` ${className}` : ''}`}
     >
       <div className="w-24 shrink-0 sm:w-28">
-        <img
-          src={product.image}
-          alt={product.name}
-          className="aspect-square w-full rounded-md object-cover"
-        />
+        {product.category === 'plan' ? (
+          <div className="flex aspect-square w-full items-center justify-center rounded-md bg-step-open">
+            <Shield className="h-10 w-10 text-brand" />
+          </div>
+        ) : (
+          <img
+            src={product.image}
+            alt={product.name}
+            className="aspect-square w-full rounded-md object-cover"
+          />
+        )}
       </div>
 
       <div className="flex min-w-0 flex-1 flex-col gap-3">
@@ -80,16 +88,18 @@ export function ProductCard({
         )}
 
         <div className="mt-auto flex items-center justify-between gap-4">
-          <QuantityStepper
-            value={quantity}
-            onIncrement={onIncrement}
-            onDecrement={onDecrement}
-            decrementDisabled={quantity <= 0}
-            ariaLabel={product.name}
-          />
+          {product.category !== 'plan' && (
+            <QuantityStepper
+              value={quantity}
+              onIncrement={onIncrement}
+              onDecrement={onDecrement}
+              decrementDisabled={quantity <= 0}
+              ariaLabel={product.name}
+            />
+          )}
 
-          <div className="flex flex-wrap items-center gap-x-2 gap-y-1 min-w-0">
-            <span className="text-base font-semibold text-primary">
+          <div className={`flex flex-wrap items-center gap-x-2 gap-y-1 min-w-0${product.category === 'plan' ? ' ml-auto' : ''}`}>
+            <span className="text-base font-semibold text-price">
               {formatPrice(product.price)}
               {product.billingPeriod === 'monthly' && (
                 <span className="text-sm font-normal text-secondary">/mo</span>

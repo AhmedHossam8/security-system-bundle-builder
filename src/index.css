@@ -5,6 +5,10 @@
   --color-page: #f5f7fa;
   --color-surface: #ffffff;
 
+  /* ── Step & Panel ── */
+  --color-step-open: #edf4ff;
+  --color-review-bg: #edf4ff;
+
   /* ── Text ── */
   --color-primary: #111827;
   --color-secondary: #6b7280;
@@ -18,6 +22,13 @@
   --color-brand: #2563eb;
   --color-brand-hover: #1d4ed8;
   --color-brand-light: #eff6ff;
+
+  /* ── Checkout ── */
+  --color-brand-checkout: #4e2fd2;
+  --color-brand-checkout-hover: #3d25b0;
+
+  /* ── Price ── */
+  --color-price: #4e2fd2;
 
   /* ── Status ── */
   --color-success: #16a34a;
