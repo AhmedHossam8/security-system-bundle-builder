@@ -88,7 +88,7 @@ export function ProductCard({
             ariaLabel={product.name}
           />
 
-          <div className="flex shrink-0 items-baseline gap-2">
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-1 min-w-0">
             <span className="text-base font-semibold text-primary">
               {formatPrice(product.price)}
               {product.billingPeriod === 'monthly' && (

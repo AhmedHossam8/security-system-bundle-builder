@@ -1,14 +1,6 @@
-export type BundleStepId =
-  | 'cameras'
-  | 'plan'
-  | 'sensors'
-  | 'accessories';
+export type BundleStepId = 'cameras' | 'plan' | 'sensors' | 'accessories';
 
-export type ProductCategory =
-  | 'cameras'
-  | 'sensors'
-  | 'accessories'
-  | 'plan';
+export type ProductCategory = 'cameras' | 'sensors' | 'accessories' | 'plan';
 
 export interface ProductVariant {
   id: string;

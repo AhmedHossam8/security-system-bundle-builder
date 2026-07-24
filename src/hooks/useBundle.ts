@@ -2,6 +2,7 @@ import { useCallback, useMemo, useState } from 'react';
 
 import { initialBundleState } from '../data/initialBundle';
 import { products } from '../data/products';
+import { clearBundleState, loadBundleState, saveBundleState } from '../lib/storage';
 import * as bundleUtils from '../utils/bundle';
 import * as selectionUtils from '../utils/selections';
 
@@ -9,17 +10,36 @@ import type { ActiveVariants, BundleSelection, BundleState, BundleStepId } from 
 
 const MIN_QUANTITY = 0;
 
-export function useBundle() {
-  const [state, setState] = useState<BundleState>(() => ({
-    ...initialBundleState,
-    selections: initialBundleState.selections.map((selection) => ({
-      ...selection,
-    })),
-  }));
+function getInitialState(): { state: BundleState; activeVariants: ActiveVariants } {
+  const saved = loadBundleState();
 
-  const [activeVariants, setActiveVariants] = useState<ActiveVariants>(() =>
-    bundleUtils.getInitialActiveVariants(products, initialBundleState.selections),
-  );
+  if (saved) {
+    return {
+      state: {
+        selections: saved.selections.map((s) => ({ ...s })),
+        activeStep: saved.activeStep,
+      },
+      activeVariants: { ...saved.activeVariants },
+    };
+  }
+
+  return {
+    state: {
+      ...initialBundleState,
+      selections: initialBundleState.selections.map((selection) => ({
+        ...selection,
+      })),
+    },
+    activeVariants: bundleUtils.getInitialActiveVariants(products, initialBundleState.selections),
+  };
+}
+
+export function useBundle() {
+  const [initial] = useState(getInitialState);
+
+  const [state, setState] = useState<BundleState>(initial.state);
+
+  const [activeVariants, setActiveVariants] = useState<ActiveVariants>(initial.activeVariants);
 
   /**
    * Find a product by its ID.
@@ -328,6 +348,25 @@ export function useBundle() {
     setActiveVariants(
       bundleUtils.getInitialActiveVariants(products, initialBundleState.selections),
     );
+    clearBundleState();
+  }, []);
+
+  /**
+   * Save the current bundle state to localStorage.
+   */
+  const saveBundle = useCallback(() => {
+    saveBundleState({
+      selections: state.selections,
+      activeStep: state.activeStep,
+      activeVariants,
+    });
+  }, [state.selections, state.activeStep, activeVariants]);
+
+  /**
+   * Clear the saved bundle state from localStorage.
+   */
+  const discardSavedBundle = useCallback(() => {
+    clearBundleState();
   }, []);
 
   /**
@@ -362,5 +401,7 @@ export function useBundle() {
     decrementQuantity,
 
     resetBundle,
+    saveBundle,
+    discardSavedBundle,
   };
 }
