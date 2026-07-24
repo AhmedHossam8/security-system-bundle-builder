@@ -108,7 +108,7 @@ export function BundleBuilder({ className }: BundleBuilderProps) {
 
   return (
     <div
-      className={`mx-auto flex w-full max-w-6xl flex-col gap-8 md:flex-row${className ? ` ${className}` : ''}`}
+      className={`flex w-full flex-col gap-6 lg:flex-row lg:gap-8${className ? ` ${className}` : ''}`}
     >
       <div className="flex min-w-0 flex-1 flex-col gap-4">
         {STEPS.map((step, index) => {
@@ -143,7 +143,7 @@ export function BundleBuilder({ className }: BundleBuilderProps) {
         })}
       </div>
 
-      <div className="w-full shrink-0 md:w-72 lg:w-80">
+      <div className="w-full shrink-0 lg:w-80 lg:self-start lg:sticky lg:top-8 xl:w-96">
         <ReviewPanel {...reviewData} onSave={saveBundle} />
       </div>
     </div>
