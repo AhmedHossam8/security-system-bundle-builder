@@ -1,4 +1,4 @@
-import { Truck } from 'lucide-react';
+import { CreditCard, ShieldCheck, Truck } from 'lucide-react';
 
 import { OrderSummary } from './OrderSummary';
 import { ReviewCategory } from './ReviewCategory';
@@ -38,7 +38,9 @@ export function ReviewPanel({
   }
 
   return (
-    <aside className={`flex flex-col bg-review-bg${className ? ` ${className}` : ''}`}>
+    <aside
+      className={`flex flex-col rounded-lg border border-border bg-review-bg lg:rounded-none lg:border-0${className ? ` ${className}` : ''}`}
+    >
       <div className="flex flex-col gap-1 px-5 pt-5">
         <span className="text-xs font-semibold uppercase tracking-wider text-muted">Review</span>
         <h2 className="text-lg font-bold text-primary">Your Security System</h2>
@@ -60,6 +62,21 @@ export function ReviewPanel({
         </div>
         <span className="text-sm font-medium text-primary">{formatPrice(5)}</span>
       </div>
+
+      {summary.subtotal > 0 && (
+        <>
+          <div className="flex items-center gap-2 border-t border-border-light px-5 py-3">
+            <ShieldCheck className="h-4 w-4 text-success" />
+            <span className="text-xs text-secondary">100% satisfaction guaranteed</span>
+          </div>
+          <div className="flex items-center gap-2 border-t border-border-light px-5 py-3">
+            <CreditCard className="h-4 w-4 text-muted" />
+            <span className="text-xs text-secondary">
+              or {formatPrice(summary.subtotal / 4)}/mo with 4 interest-free installments
+            </span>
+          </div>
+        </>
+      )}
 
       <OrderSummary {...summary} onSave={onSave} onCheckout={onCheckout} />
     </aside>

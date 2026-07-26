@@ -1,4 +1,4 @@
-import { Shield } from 'lucide-react';
+import { Check, Shield } from 'lucide-react';
 
 import { QuantityStepper } from './QuantityStepper';
 import { VariantSelector } from './VariantSelector';
@@ -88,7 +88,26 @@ export function ProductCard({
         )}
 
         <div className="mt-auto flex items-center justify-between gap-4">
-          {product.category !== 'plan' && (
+          {product.category === 'plan' ? (
+            quantity > 0 ? (
+              <button
+                type="button"
+                onClick={onDecrement}
+                className="flex items-center gap-1.5 rounded-md bg-success-light px-3 py-1.5 text-sm font-medium text-success transition-colors hover:bg-red-50 hover:text-discount"
+              >
+                <Check className="h-4 w-4" />
+                Selected
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={onIncrement}
+                className="rounded-md bg-brand px-3 py-1.5 text-sm font-medium text-white transition-colors hover:bg-brand-hover"
+              >
+                Select
+              </button>
+            )
+          ) : (
             <QuantityStepper
               value={quantity}
               onIncrement={onIncrement}
@@ -98,7 +117,9 @@ export function ProductCard({
             />
           )}
 
-          <div className={`flex flex-wrap items-center gap-x-2 gap-y-1 min-w-0${product.category === 'plan' ? ' ml-auto' : ''}`}>
+          <div
+            className={`flex flex-wrap items-center gap-x-2 gap-y-1 min-w-0${product.category === 'plan' ? ' ml-auto' : ''}`}
+          >
             <span className="text-base font-semibold text-price">
               {formatPrice(product.price)}
               {product.billingPeriod === 'monthly' && (
